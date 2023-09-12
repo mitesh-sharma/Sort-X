@@ -199,11 +199,11 @@ export default class SortingVisualizer extends React.Component {
               <button className='rounded-md px-2.5 mx-1.5 bg-white text-dark-cyan active:bg-cyan-800 active:text-white hover:ring-2 ring-neutral-400 ring-inset' onClick={()=> this.decreaseNumberOfBars()}><b>-</b></button>
               <button className='rounded-md px-2.5 mx-1.5 bg-white text-dark-cyan active:bg-cyan-800 active:text-white hover:ring-2 ring-neutral-400 ring-inset' onClick={()=> this.increaseNumberOfBars()}><b>+</b></button>
             </div>
-            {/* <div className="animationSpeed inline m-3 p-3 bg-cyan-600 rounded-md">
+            <div className="animationSpeed inline m-3 p-3 bg-cyan-600 rounded-md">
               <p className='px-1 inline'>Animation Speed</p>
               <button className='rounded-md px-2.5 mx-1.5 bg-white text-dark-cyan active:bg-cyan-800 active:text-white hover:ring-2 ring-neutral-400 ring-inset' onClick={()=> this.increaseAnimation()}><b>-</b></button>
               <button className='rounded-md px-2.5 mx-1.5 bg-white text-dark-cyan active:bg-cyan-800 active:text-white hover:ring-2 ring-neutral-400 ring-inset'  onClick={()=> this.decreaseAnimation()}><b>+</b></button>
-            </div> */}
+            </div>
           </div>
 
           <div className="array-container justify-center flex relative top-20 pl-12 pr-12">
