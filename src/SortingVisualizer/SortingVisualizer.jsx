@@ -3,9 +3,6 @@ import {getMergeSortAnimations, getBubbleSortAnimations, getQuickSortAnimations,
    getInsertionSortAnimations, getSelectionSortAnimations} from '../sortingAlgorithms/sortingAlgorithms.js';
 import './style_sv.css';
 
-// Change this value for the speed of the animations.
-let ANIMATION_SPEED_MS = 1;
-
 // Change this value for the number of bars (value) in the array.
 let NUMBER_OF_ARRAY_BARS = 80;
 
@@ -21,6 +18,7 @@ export default class SortingVisualizer extends React.Component {
 
       this.state = {
         array: [],
+        ANIMATION_SPEED_MS : 1
       };
     }
 
@@ -49,13 +47,13 @@ export default class SortingVisualizer extends React.Component {
           setTimeout(() => {
             barOneStyle.backgroundColor = color;
             barTwoStyle.backgroundColor = color;
-          }, i * ANIMATION_SPEED_MS);
+          }, i * this.state.ANIMATION_SPEED_MS);
         } else {
           setTimeout(() => {
             const [barOneIdx, newHeight] = animations[i];
             const barOneStyle = arrayBars[barOneIdx].style;
             barOneStyle.height = `${newHeight}px`;
-          }, i * ANIMATION_SPEED_MS);
+          }, i * this.state.ANIMATION_SPEED_MS);
         }
       }
     }
@@ -76,7 +74,7 @@ export default class SortingVisualizer extends React.Component {
             barOneStyle.height = barTwoStyle.height;
             barTwoStyle.height = tempHeight;
           }
-        }, i * ANIMATION_SPEED_MS);
+        }, i * this.state.ANIMATION_SPEED_MS);
       }
     }    
     
@@ -96,7 +94,7 @@ export default class SortingVisualizer extends React.Component {
             barOneStyle.height = barTwoStyle.height;
             barTwoStyle.height = tempHeight;
           }
-        }, i * ANIMATION_SPEED_MS);
+        }, i * this.state.ANIMATION_SPEED_MS);
       }
     }
 
@@ -116,7 +114,7 @@ export default class SortingVisualizer extends React.Component {
             barOneStyle.height = barTwoStyle.height;
             barTwoStyle.height = tempHeight;
           }
-        }, i * ANIMATION_SPEED_MS);
+        }, i * this.state.ANIMATION_SPEED_MS);
       }
     }
 
@@ -136,7 +134,7 @@ export default class SortingVisualizer extends React.Component {
             barOneStyle.height = barTwoStyle.height;
             barTwoStyle.height = tempHeight;
           }
-        }, i * ANIMATION_SPEED_MS);
+        }, i * this.state.ANIMATION_SPEED_MS);
       }
     }
 
@@ -153,7 +151,7 @@ export default class SortingVisualizer extends React.Component {
             barOneStyle.height = barTwoStyle.height;
             barTwoStyle.height = tempHeight;
           }
-        }, i * ANIMATION_SPEED_MS);
+        }, i * this.state.ANIMATION_SPEED_MS);
       }
     }
     
@@ -169,39 +167,44 @@ export default class SortingVisualizer extends React.Component {
         this.resetArray();
       }
     }
-    decreaseAnimation(){
-        ANIMATION_SPEED_MS -= 5;
-        if(ANIMATION_SPEED_MS <=0){
-          ANIMATION_SPEED_MS = 1;
-        }
+    decreaseAnimation() {
+      const { ANIMATION_SPEED_MS } = this.state;
+      if (ANIMATION_SPEED_MS > 5) {
+        this.setState({ ANIMATION_SPEED_MS: ANIMATION_SPEED_MS - 5 });
+      }
     }
-    increaseAnimation(){
-      ANIMATION_SPEED_MS += 5;
+  
+    increaseAnimation() {
+      const { ANIMATION_SPEED_MS } = this.state;
+      if(ANIMATION_SPEED_MS < 95){
+        this.setState({ ANIMATION_SPEED_MS: ANIMATION_SPEED_MS + 5 });
+      }
     }
 
     render(){
-        const{array} = this.state;
+        const {array, ANIMATION_SPEED_MS} = this.state;
 
         return(
         <div className="navbar w-full h-20 bg-dark-cyan">
           <div className="btnleft absolute ">
-            <button className=' px-2 py-2 bg-cyan-600 hover:bg-lightice hover:text-dark-cyan rounded-md mx-3 my-4' onClick={()=>this.resetArray()}>Generate New Array</button>
-            <button className=' px-2 py-2 bg-cyan-600 hover:bg-lightice hover:text-dark-cyan rounded-md mx-3 my-4' onClick={()=>this.mergeSort()}>Merge Sort</button>
-            <button className=' px-2 py-2 bg-cyan-600 hover:bg-lightice hover:text-dark-cyan rounded-md mx-3 my-4' onClick={()=>this.quickSort()}>Quick Sort</button>
-            <button className=' px-2 py-2 bg-cyan-600 hover:bg-lightice hover:text-dark-cyan rounded-md mx-3 my-4' onClick={()=>this.heapSort()}>Heap Sort</button>
-            <button className=' px-2 py-2 bg-cyan-600 hover:bg-lightice hover:text-dark-cyan rounded-md mx-3 my-4' onClick={()=>this.insertionSort()}>Insertion Sort</button>
-            <button className=' px-2 py-2 bg-cyan-600 hover:bg-lightice hover:text-dark-cyan rounded-md mx-3 my-4' onClick={()=>this.bubbleSort()}>Bubble Sort</button>
-            <button className=' px-2 py-2 bg-cyan-600 hover:bg-lightice hover:text-dark-cyan rounded-md mx-3 my-4' onClick={()=>this.selectionSort()}>Selection Sort</button>
+            <button className=' px-2 py-2 bg-cyan-600 ring-1 ring-cyan-300 hover:bg-cyan-200 hover:text-dark-cyan rounded-md mx-3 my-4' onClick={()=>this.resetArray()}>Generate New Array</button>
+            <button className=' px-2 py-2 bg-cyan-600 ring-1 ring-cyan-300 hover:bg-cyan-200 hover:text-dark-cyan rounded-md mx-3 my-4' onClick={()=>this.mergeSort()}>Merge Sort</button>
+            <button className=' px-2 py-2 bg-cyan-600 ring-1 ring-cyan-300 hover:bg-cyan-200 hover:text-dark-cyan rounded-md mx-3 my-4' onClick={()=>this.quickSort()}>Quick Sort</button>
+            <button className=' px-2 py-2 bg-cyan-600 ring-1 ring-cyan-300 hover:bg-cyan-200 hover:text-dark-cyan rounded-md mx-3 my-4' onClick={()=>this.heapSort()}>Heap Sort</button>
+            <button className=' px-2 py-2 bg-cyan-600 ring-1 ring-cyan-300 hover:bg-cyan-200 hover:text-dark-cyan rounded-md mx-3 my-4' onClick={()=>this.insertionSort()}>Insertion Sort</button>
+            <button className=' px-2 py-2 bg-cyan-600 ring-1 ring-cyan-300 hover:bg-cyan-200 hover:text-dark-cyan rounded-md mx-3 my-4' onClick={()=>this.bubbleSort()}>Bubble Sort</button>
+            <button className=' px-2 py-2 bg-cyan-600 ring-1 ring-cyan-300 hover:bg-cyan-200 hover:text-dark-cyan rounded-md mx-3 my-4' onClick={()=>this.selectionSort()}>Selection Sort</button>
           </div>
           <div className="btnright pt-4 pb-4 mr-3 absolute right-3 top-1.5">
-            <div className="numberofBars inline m-3 p-3 bg-cyan-600 rounded-md">
+            <div className="numberofBars inline m-3 p-3 bg-cyan-800  rounded-md">
               <p className='px-1 inline'>Number of Bars</p>
               <button className='rounded-md px-2.5 mx-1.5 bg-white text-dark-cyan active:bg-cyan-800 active:text-white hover:ring-2 ring-neutral-400 ring-inset' onClick={()=> this.decreaseNumberOfBars()}><b>-</b></button>
               <button className='rounded-md px-2.5 mx-1.5 bg-white text-dark-cyan active:bg-cyan-800 active:text-white hover:ring-2 ring-neutral-400 ring-inset' onClick={()=> this.increaseNumberOfBars()}><b>+</b></button>
             </div>
-            <div className="animationSpeed inline m-3 p-3 bg-cyan-600 rounded-md">
-              <p className='px-1 inline'>Animation Speed</p>
-              <button className='rounded-md px-2.5 mx-1.5 bg-white text-dark-cyan active:bg-cyan-800 active:text-white hover:ring-2 ring-neutral-400 ring-inset' onClick={()=> this.increaseAnimation()}><b>-</b></button>
+            <div className="animationSpeed inline ml-3 mr-1 p-3 bg-cyan-800 rounded-md">
+              <p className='px-1 inline'>Animation Speed &rarr; </p>
+              <p className = 'd-flex inline absolute'>{101 - ANIMATION_SPEED_MS}</p>
+              <button className='rounded-md px-2.5 ml-10 mr-1.5 bg-white text-dark-cyan active:bg-cyan-800 active:text-white hover:ring-2 ring-neutral-400 ring-inset' onClick={()=> this.increaseAnimation()}><b>-</b></button>
               <button className='rounded-md px-2.5 mx-1.5 bg-white text-dark-cyan active:bg-cyan-800 active:text-white hover:ring-2 ring-neutral-400 ring-inset'  onClick={()=> this.decreaseAnimation()}><b>+</b></button>
             </div>
           </div>
