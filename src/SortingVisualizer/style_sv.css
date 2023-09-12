@@ -1,0 +1,22 @@
+
+@import url('https://fonts.googleapis.com/css2?family=Roboto+Slab:wght@600;900&display=swap');
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+.array-bar{
+    border-bottom-left-radius: 50%;
+    border-bottom-right-radius: 50%;
+    background-color: white;
+}
+body{
+    background-image: url(./cave.jpg);
+    background-color: #176B87;
+}
+
+button, p{
+    font-size: 15px;
+    color: white;
+    font-family: 'Roboto Slab', sans-serif;
+    border: none;
+}
