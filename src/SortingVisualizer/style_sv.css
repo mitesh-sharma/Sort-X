@@ -12,6 +12,9 @@
 body{
     background-image: url(./cave.jpg);
     background-color: #176B87;
+    background-size: cover;
+    background-attachment: fixed;
+    background-position: center;
 }
 
 button, p{
