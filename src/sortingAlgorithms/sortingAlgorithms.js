@@ -200,16 +200,14 @@ export function getSelectionSortAnimations(array) {
   function selectionSort(arr) {
     for (let i = 0; i < n - 1; i++) {
       let minIdx = i;
-
       for (let j = i + 1; j < n; j++) {
         animations.push([j, minIdx, false]);
         if (arr[j] < arr[minIdx]) {
           minIdx = j;
         }
       }
-
+      animations.push([minIdx, i, true]);
       if (minIdx !== i) {
-        animations.push([i, minIdx, true]);
         const temp = arr[i];
         arr[i] = arr[minIdx];
         arr[minIdx] = temp;

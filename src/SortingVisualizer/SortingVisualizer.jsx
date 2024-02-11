@@ -151,7 +151,10 @@ export default class SortingVisualizer extends React.Component {
             const [barOneIdx, barTwoIdx, isSwap] = animations[i];
             const barOneStyle = arrayBars[barOneIdx].style;
             const barTwoStyle = arrayBars[barTwoIdx].style;
+            const color = isSwap ? SECONDARY_COLOR : PRIMARY_COLOR;
             setTimeout(() => {
+                barOneStyle.backgroundColor = color;
+                barTwoStyle.backgroundColor = color;
                 if (isSwap) {
                     const tempHeight = barOneStyle.height;
                     barOneStyle.height = barTwoStyle.height;
@@ -274,11 +277,7 @@ export default class SortingVisualizer extends React.Component {
 
                 <div className="array-container justify-center flex relative top-20 pl-12 pr-12">
                     {array.map((value, idx) => (
-                        <div
-                            className="array-bar w-2 inline-block mx-1 my-0"
-                            key={idx}
-                            style={{ height: value }}
-                        />
+                        <div className="array-bar w-2 inline-block mx-1 my-0" key={idx} style={{ height: value }}/>
                     ))}
                 </div>
             </div>
