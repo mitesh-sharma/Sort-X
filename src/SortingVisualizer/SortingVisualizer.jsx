@@ -238,7 +238,7 @@ export default function SortingVisualizer(props) {
                         className="rounded-md px-1 mx-1 active:bg-cyan-800 text-white"
                         for="points"
                     >
-                        Animation Time: {ANIMATION_SPEED_MS}
+                        Animation Time: {ANIMATION_SPEED_MS} ms
                     </label>
                     <input
                         className="w-20"
