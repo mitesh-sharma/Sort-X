@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useEffect } from 'react';
 import {
     getMergeSortAnimations,
     getBubbleSortAnimations,
@@ -9,39 +9,43 @@ import {
 } from "../sortingAlgorithms/sortingAlgorithms.js";
 import "./style_sv.css";
 
-// Change this value for the number of bars (value) in the array.
-let NUMBER_OF_ARRAY_BARS = 80;
+export default function SortingVisualizer(props) {
+    const PRIMARY_COLOR = "white";
+    const SECONDARY_COLOR = "red";
 
-// This is the main color of the array bars.
-let PRIMARY_COLOR = "white";
-// This is the color of array bars that are being compared throughout the animations.
-const SECONDARY_COLOR = "red";
+    const [array, setArray] = useState([]);
+    const [ANIMATION_SPEED_MS, setANIMATION_SPEED_MS] = useState(1);
+    const [NUMBER_OF_ARRAY_BARS, setNUMBER_OF_ARRAY_BARS] = useState(70);
 
-export default class SortingVisualizer extends React.Component {
-    constructor(props) {
-        super(props);
+    useEffect(() => {
+        resetArray();
+    }, []);
 
-        this.state = {
-            array: [],
-            ANIMATION_SPEED_MS: 1,
-        };
+    //Functions
+    function randomIntFromInterval(min, max) {
+        return Math.floor(Math.random() * (max - min + 1) + min);
     }
 
-    componentDidMount() {
-        this.resetArray();
-    }
-
-    resetArray() {
-        // generate new array button
+    function resetArray() {
         const array = [];
         for (let i = 0; i < NUMBER_OF_ARRAY_BARS; i++) {
-            array.push(randomIntFromInterval(50, 540)); // bar length - push a random value b/w 50 & 500
+            array.push(randomIntFromInterval(50, 540));
         }
-        this.setState({ array });
+        setArray(array);
     }
 
-    mergeSort() {
-        const animations = getMergeSortAnimations(this.state.array);
+    function setBarNumber(e) {
+        setNUMBER_OF_ARRAY_BARS(e);
+        resetArray();
+    }
+
+    function setAnimationSpeed(e) {
+        setANIMATION_SPEED_MS(e);
+    }
+
+    //Sorting Functions
+    function mergeSort() {
+        const animations = getMergeSortAnimations(array);
         for (let i = 0; i < animations.length; i++) {
             const arrayBars = document.getElementsByClassName("array-bar");
             const isColorChange = i % 3 !== 2;
@@ -53,19 +57,19 @@ export default class SortingVisualizer extends React.Component {
                 setTimeout(() => {
                     barOneStyle.backgroundColor = color;
                     barTwoStyle.backgroundColor = color;
-                }, i * this.state.ANIMATION_SPEED_MS);
+                }, i * ANIMATION_SPEED_MS);
             } else {
                 setTimeout(() => {
                     const [barOneIdx, newHeight] = animations[i];
                     const barOneStyle = arrayBars[barOneIdx].style;
                     barOneStyle.height = `${newHeight}px`;
-                }, i * this.state.ANIMATION_SPEED_MS);
+                }, i * ANIMATION_SPEED_MS);
             }
         }
     }
 
-    bubbleSort() {
-        const animations = getBubbleSortAnimations(this.state.array);
+    function bubbleSort() {
+        const animations = getBubbleSortAnimations(array);
         for (let i = 0; i < animations.length; i++) {
             const arrayBars = document.getElementsByClassName("array-bar");
             const [barOneIdx, barTwoIdx, isSwap] = animations[i];
@@ -80,12 +84,12 @@ export default class SortingVisualizer extends React.Component {
                     barOneStyle.height = barTwoStyle.height;
                     barTwoStyle.height = tempHeight;
                 }
-            }, i * this.state.ANIMATION_SPEED_MS);
+            }, i * ANIMATION_SPEED_MS);
         }
     }
 
-    quickSort() {
-        const animations = getQuickSortAnimations(this.state.array);
+    function quickSort() {
+        const animations = getQuickSortAnimations(array);
         for (let i = 0; i < animations.length; i++) {
             const arrayBars = document.getElementsByClassName("array-bar");
             const [barOneIdx, barTwoIdx, isSwap] = animations[i];
@@ -100,12 +104,12 @@ export default class SortingVisualizer extends React.Component {
                     barOneStyle.height = barTwoStyle.height;
                     barTwoStyle.height = tempHeight;
                 }
-            }, i * this.state.ANIMATION_SPEED_MS);
+            }, i * ANIMATION_SPEED_MS);
         }
     }
 
-    insertionSort() {
-        const animations = getInsertionSortAnimations(this.state.array);
+    function insertionSort() {
+        const animations = getInsertionSortAnimations(array);
         for (let i = 0; i < animations.length; i++) {
             const arrayBars = document.getElementsByClassName("array-bar");
             const [barOneIdx, barTwoIdx, isSwap] = animations[i];
@@ -120,12 +124,12 @@ export default class SortingVisualizer extends React.Component {
                     barOneStyle.height = barTwoStyle.height;
                     barTwoStyle.height = tempHeight;
                 }
-            }, i * this.state.ANIMATION_SPEED_MS);
+            }, i * ANIMATION_SPEED_MS);
         }
     }
 
-    heapSort() {
-        const animations = getHeapSortAnimations(this.state.array);
+    function heapSort() {
+        const animations = getHeapSortAnimations(array);
         for (let i = 0; i < animations.length; i++) {
             const arrayBars = document.getElementsByClassName("array-bar");
             const [barOneIdx, barTwoIdx, isSwap] = animations[i];
@@ -140,12 +144,12 @@ export default class SortingVisualizer extends React.Component {
                     barOneStyle.height = barTwoStyle.height;
                     barTwoStyle.height = tempHeight;
                 }
-            }, i * this.state.ANIMATION_SPEED_MS);
+            }, i * ANIMATION_SPEED_MS);
         }
     }
 
-    selectionSort() {
-        const animations = getSelectionSortAnimations(this.state.array);
+    function selectionSort() {
+        const animations = getSelectionSortAnimations(array);
         for (let i = 0; i < animations.length; i++) {
             const arrayBars = document.getElementsByClassName("array-bar");
             const [barOneIdx, barTwoIdx, isSwap] = animations[i];
@@ -153,138 +157,113 @@ export default class SortingVisualizer extends React.Component {
             const barTwoStyle = arrayBars[barTwoIdx].style;
             const color = isSwap ? SECONDARY_COLOR : PRIMARY_COLOR;
             setTimeout(() => {
-                barOneStyle.backgroundColor = color;
-                barTwoStyle.backgroundColor = color;
                 if (isSwap) {
                     const tempHeight = barOneStyle.height;
                     barOneStyle.height = barTwoStyle.height;
                     barTwoStyle.height = tempHeight;
                 }
-            }, i * this.state.ANIMATION_SPEED_MS);
+            }, i * ANIMATION_SPEED_MS);
         }
     }
 
-    decreaseNumberOfBars() {
-        if (NUMBER_OF_ARRAY_BARS >= 12) {
-            NUMBER_OF_ARRAY_BARS -= 10;
-            this.resetArray();
-        }
-    }
-    increaseNumberOfBars() {
-        if (NUMBER_OF_ARRAY_BARS <= 100) {
-            NUMBER_OF_ARRAY_BARS += 10;
-            this.resetArray();
-        }
-    }
-    decreaseAnimation() {
-        const { ANIMATION_SPEED_MS } = this.state;
-        if (ANIMATION_SPEED_MS > 5) {
-            this.setState({ ANIMATION_SPEED_MS: ANIMATION_SPEED_MS - 5 });
-        }
-    }
-
-    increaseAnimation() {
-        const { ANIMATION_SPEED_MS } = this.state;
-        if (ANIMATION_SPEED_MS < 95) {
-            this.setState({ ANIMATION_SPEED_MS: ANIMATION_SPEED_MS + 5 });
-        }
-    }
-
-    render() {
-        const { array, ANIMATION_SPEED_MS } = this.state;
-
-        return (
-            <div className="navbar w-full h-20 bg-dark-cyan">
-                <div className="btnleft absolute ">
-                    <button
-                        className=" px-2 py-2 bg-cyan-600 ring-1 ring-cyan-300 hover:bg-cyan-200 hover:text-dark-cyan rounded-md mx-3 my-4"
-                        onClick={() => this.resetArray()}
+    return (
+        <div className="navbar w-full h-20 bg-dark-cyan">
+            <div className="btnleft absolute ">
+                <button
+                    className=" px-2 py-2 bg-cyan-600 ring-1 ring-cyan-300 hover:bg-cyan-200 hover:text-dark-cyan rounded-md mx-2 my-4"
+                    onClick={() => resetArray()}
+                >
+                    Generate New Array
+                </button>
+                <button
+                    className=" px-2 py-2 bg-cyan-600 ring-1 ring-cyan-300 hover:bg-cyan-200 hover:text-dark-cyan rounded-md mx-2 my-4"
+                    onClick={() => mergeSort()}
+                >
+                    Merge Sort
+                </button>
+                <button
+                    className=" px-2 py-2 bg-cyan-600 ring-1 ring-cyan-300 hover:bg-cyan-200 hover:text-dark-cyan rounded-md mx-2 my-4"
+                    onClick={() => quickSort()}
+                >
+                    Quick Sort
+                </button>
+                <button
+                    className=" px-2 py-2 bg-cyan-600 ring-1 ring-cyan-300 hover:bg-cyan-200 hover:text-dark-cyan rounded-md mx-2 my-4"
+                    onClick={() => heapSort()}
+                >
+                    Heap Sort
+                </button>
+                <button
+                    className=" px-2 py-2 bg-cyan-600 ring-1 ring-cyan-300 hover:bg-cyan-200 hover:text-dark-cyan rounded-md mx-2 my-4"
+                    onClick={() => insertionSort()}
+                >
+                    Insertion Sort
+                </button>
+                <button
+                    className=" px-2 py-2 bg-cyan-600 ring-1 ring-cyan-300 hover:bg-cyan-200 hover:text-dark-cyan rounded-md mx-2 my-4"
+                    onClick={() => bubbleSort()}
+                >
+                    Bubble Sort
+                </button>
+                <button
+                    className=" px-2 py-2 bg-cyan-600 ring-1 ring-cyan-300 hover:bg-cyan-200 hover:text-dark-cyan rounded-md mx-2 my-4"
+                    onClick={() => selectionSort()}
+                >
+                    Selection Sort
+                </button>
+            </div>
+            <div className="btnright pt-4 pb-4 mr-3 absolute right-3 top-1.5">
+                <div className="numberofBars inline m-2 p-3 bg-cyan-800  rounded-md">
+                    <label
+                        className="rounded-md px-1 mx-1 active:bg-cyan-800 text-white"
+                        for="points"
                     >
-                        Generate New Array
-                    </button>
-                    <button
-                        className=" px-2 py-2 bg-cyan-600 ring-1 ring-cyan-300 hover:bg-cyan-200 hover:text-dark-cyan rounded-md mx-3 my-4"
-                        onClick={() => this.mergeSort()}
-                    >
-                        Merge Sort
-                    </button>
-                    <button
-                        className=" px-2 py-2 bg-cyan-600 ring-1 ring-cyan-300 hover:bg-cyan-200 hover:text-dark-cyan rounded-md mx-3 my-4"
-                        onClick={() => this.quickSort()}
-                    >
-                        Quick Sort
-                    </button>
-                    <button
-                        className=" px-2 py-2 bg-cyan-600 ring-1 ring-cyan-300 hover:bg-cyan-200 hover:text-dark-cyan rounded-md mx-3 my-4"
-                        onClick={() => this.heapSort()}
-                    >
-                        Heap Sort
-                    </button>
-                    <button
-                        className=" px-2 py-2 bg-cyan-600 ring-1 ring-cyan-300 hover:bg-cyan-200 hover:text-dark-cyan rounded-md mx-3 my-4"
-                        onClick={() => this.insertionSort()}
-                    >
-                        Insertion Sort
-                    </button>
-                    <button
-                        className=" px-2 py-2 bg-cyan-600 ring-1 ring-cyan-300 hover:bg-cyan-200 hover:text-dark-cyan rounded-md mx-3 my-4"
-                        onClick={() => this.bubbleSort()}
-                    >
-                        Bubble Sort
-                    </button>
-                    <button
-                        className=" px-2 py-2 bg-cyan-600 ring-1 ring-cyan-300 hover:bg-cyan-200 hover:text-dark-cyan rounded-md mx-3 my-4"
-                        onClick={() => this.selectionSort()}
-                    >
-                        Selection Sort
-                    </button>
+                        Number of Bars
+                    </label>
+                    <input
+                        className="w-20"
+                        type="range"
+                        id="points"
+                        name="points"
+                        min="10"
+                        max="100"
+                        value={NUMBER_OF_ARRAY_BARS}
+                        onChange={(e) => {
+                            setBarNumber(e.target.value);
+                        }}
+                    />
                 </div>
-                <div className="btnright pt-4 pb-4 mr-3 absolute right-3 top-1.5">
-                    <div className="numberofBars inline m-3 p-3 bg-cyan-800  rounded-md">
-                        <p className="px-1 inline">Number of Bars</p>
-                        <button
-                            className="rounded-md px-2.5 mx-1.5 bg-white text-dark-cyan active:bg-cyan-800 active:text-white hover:ring-2 ring-neutral-400 ring-inset"
-                            onClick={() => this.decreaseNumberOfBars()}
-                        >
-                            <b>-</b>
-                        </button>
-                        <button
-                            className="rounded-md px-2.5 mx-1.5 bg-white text-dark-cyan active:bg-cyan-800 active:text-white hover:ring-2 ring-neutral-400 ring-inset"
-                            onClick={() => this.increaseNumberOfBars()}
-                        >
-                            <b>+</b>
-                        </button>
-                    </div>
-                    <div className="animationSpeed inline ml-3 mr-1 p-3 bg-cyan-800 rounded-md">
-                        <p className="px-1 inline">Animation Speed &rarr; </p>
-                        <p className="d-flex inline absolute">
-                            {101 - ANIMATION_SPEED_MS}
-                        </p>
-                        <button
-                            className="rounded-md px-2.5 ml-10 mr-1.5 bg-white text-dark-cyan active:bg-cyan-800 active:text-white hover:ring-2 ring-neutral-400 ring-inset"
-                            onClick={() => this.increaseAnimation()}
-                        >
-                            <b>-</b>
-                        </button>
-                        <button
-                            className="rounded-md px-2.5 mx-1.5 bg-white text-dark-cyan active:bg-cyan-800 active:text-white hover:ring-2 ring-neutral-400 ring-inset"
-                            onClick={() => this.decreaseAnimation()}
-                        >
-                            <b>+</b>
-                        </button>
-                    </div>
-                </div>
-
-                <div className="array-container justify-center flex relative top-20 pl-12 pr-12">
-                    {array.map((value, idx) => (
-                        <div className="array-bar w-2 inline-block mx-1 my-0" key={idx} style={{ height: value }}/>
-                    ))}
+                <div className="numberofBars inline m-2 p-3 bg-cyan-800  rounded-md">
+                    <label
+                        className="rounded-md px-1 mx-1 active:bg-cyan-800 text-white"
+                        for="points"
+                    >
+                        Animation Time: {ANIMATION_SPEED_MS}
+                    </label>
+                    <input
+                        className="w-20"
+                        type="range"
+                        id="points"
+                        name="points"
+                        min="1"
+                        max="100"
+                        value={ANIMATION_SPEED_MS}
+                        onChange={(e) => {
+                            setAnimationSpeed(e.target.value);
+                        }}
+                    />
                 </div>
             </div>
-        );
-    }
-}
 
-function randomIntFromInterval(min, max) {
-    return Math.floor(Math.random() * (max - min + 1) + min);
+            <div className="array-container justify-center flex relative top-20 pl-12 pr-12">
+                {array.map((value, idx) => (
+                    <div
+                        className="array-bar w-2 inline-block mx-1 my-0"
+                        key={idx}
+                        style={{ height: value }}
+                    />
+                ))}
+            </div>
+        </div>
+    );
 }
