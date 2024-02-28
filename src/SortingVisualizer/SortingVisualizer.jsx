@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect } from "react";
 import {
     getMergeSortAnimations,
     getBubbleSortAnimations,
@@ -14,11 +14,11 @@ export default function SortingVisualizer(props) {
     const SECONDARY_COLOR = "red";
 
     const [array, setArray] = useState([]);
-    const [ANIMATION_SPEED_MS, setANIMATION_SPEED_MS] = useState(1);
-    const [NUMBER_OF_ARRAY_BARS, setNUMBER_OF_ARRAY_BARS] = useState(70);
+    const [animationSpeed, setanimationSpeed] = useState(1);
+    const [numberOfBars, setnumberOfBars] = useState(70);
 
     useEffect(() => {
-        resetArray();
+        resetArray(numberOfBars);
     }, []);
 
     //Functions
@@ -26,21 +26,12 @@ export default function SortingVisualizer(props) {
         return Math.floor(Math.random() * (max - min + 1) + min);
     }
 
-    function resetArray() {
+    function resetArray(numberOfBars) {
         const array = [];
-        for (let i = 0; i < NUMBER_OF_ARRAY_BARS; i++) {
+        for (let i = 0; i < numberOfBars; i++) {
             array.push(randomIntFromInterval(50, 540));
         }
         setArray(array);
-    }
-
-    function setBarNumber(e) {
-        setNUMBER_OF_ARRAY_BARS(e);
-        resetArray();
-    }
-
-    function setAnimationSpeed(e) {
-        setANIMATION_SPEED_MS(e);
     }
 
     //Sorting Functions
@@ -57,13 +48,13 @@ export default function SortingVisualizer(props) {
                 setTimeout(() => {
                     barOneStyle.backgroundColor = color;
                     barTwoStyle.backgroundColor = color;
-                }, i * ANIMATION_SPEED_MS);
+                }, i * animationSpeed);
             } else {
                 setTimeout(() => {
                     const [barOneIdx, newHeight] = animations[i];
                     const barOneStyle = arrayBars[barOneIdx].style;
                     barOneStyle.height = `${newHeight}px`;
-                }, i * ANIMATION_SPEED_MS);
+                }, i * animationSpeed);
             }
         }
     }
@@ -84,7 +75,7 @@ export default function SortingVisualizer(props) {
                     barOneStyle.height = barTwoStyle.height;
                     barTwoStyle.height = tempHeight;
                 }
-            }, i * ANIMATION_SPEED_MS);
+            }, i * animationSpeed);
         }
     }
 
@@ -104,7 +95,7 @@ export default function SortingVisualizer(props) {
                     barOneStyle.height = barTwoStyle.height;
                     barTwoStyle.height = tempHeight;
                 }
-            }, i * ANIMATION_SPEED_MS);
+            }, i * animationSpeed);
         }
     }
 
@@ -124,7 +115,7 @@ export default function SortingVisualizer(props) {
                     barOneStyle.height = barTwoStyle.height;
                     barTwoStyle.height = tempHeight;
                 }
-            }, i * ANIMATION_SPEED_MS);
+            }, i * animationSpeed);
         }
     }
 
@@ -144,7 +135,7 @@ export default function SortingVisualizer(props) {
                     barOneStyle.height = barTwoStyle.height;
                     barTwoStyle.height = tempHeight;
                 }
-            }, i * ANIMATION_SPEED_MS);
+            }, i * animationSpeed);
         }
     }
 
@@ -155,14 +146,13 @@ export default function SortingVisualizer(props) {
             const [barOneIdx, barTwoIdx, isSwap] = animations[i];
             const barOneStyle = arrayBars[barOneIdx].style;
             const barTwoStyle = arrayBars[barTwoIdx].style;
-            const color = isSwap ? SECONDARY_COLOR : PRIMARY_COLOR;
             setTimeout(() => {
                 if (isSwap) {
                     const tempHeight = barOneStyle.height;
                     barOneStyle.height = barTwoStyle.height;
                     barTwoStyle.height = tempHeight;
                 }
-            }, i * ANIMATION_SPEED_MS);
+            }, i * animationSpeed);
         }
     }
 
@@ -171,7 +161,7 @@ export default function SortingVisualizer(props) {
             <div className="btnleft absolute ">
                 <button
                     className=" px-2 py-2 bg-cyan-600 ring-1 ring-cyan-300 hover:bg-cyan-200 hover:text-dark-cyan rounded-md mx-2 my-4"
-                    onClick={() => resetArray()}
+                    onClick={() => resetArray(numberOfBars)}
                 >
                     Generate New Array
                 </button>
@@ -213,7 +203,7 @@ export default function SortingVisualizer(props) {
                 </button>
             </div>
             <div className="btnright pt-4 pb-4 mr-3 absolute right-3 top-1.5">
-                <div className="numberofBars inline m-2 p-3 bg-cyan-800  rounded-md">
+                <div className="inline m-2 p-3 bg-cyan-800  rounded-md">
                     <label
                         className="rounded-md px-1 mx-1 active:bg-cyan-800 text-white"
                         for="points"
@@ -227,18 +217,19 @@ export default function SortingVisualizer(props) {
                         name="points"
                         min="10"
                         max="100"
-                        value={NUMBER_OF_ARRAY_BARS}
+                        value={numberOfBars}
                         onChange={(e) => {
-                            setBarNumber(e.target.value);
+                            setnumberOfBars(e.target.value);
+                            resetArray(e.target.value);
                         }}
                     />
                 </div>
-                <div className="numberofBars inline m-2 p-3 bg-cyan-800  rounded-md">
+                <div className="inline m-2 p-3 bg-cyan-800  rounded-md">
                     <label
                         className="rounded-md px-1 mx-1 active:bg-cyan-800 text-white"
                         for="points"
                     >
-                        Animation Time: {ANIMATION_SPEED_MS} ms
+                        Animation Time: {animationSpeed} ms
                     </label>
                     <input
                         className="w-20"
@@ -247,9 +238,9 @@ export default function SortingVisualizer(props) {
                         name="points"
                         min="1"
                         max="100"
-                        value={ANIMATION_SPEED_MS}
+                        value={animationSpeed}
                         onChange={(e) => {
-                            setAnimationSpeed(e.target.value);
+                            setanimationSpeed(e.target.value);
                         }}
                     />
                 </div>
