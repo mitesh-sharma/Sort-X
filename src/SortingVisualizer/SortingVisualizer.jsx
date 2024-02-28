@@ -9,7 +9,7 @@ import {
 } from "../sortingAlgorithms/sortingAlgorithms.js";
 import "./style_sv.css";
 
-export default function SortingVisualizer(props) {
+export default function SortingVisualizer() {
     const PRIMARY_COLOR = "white";
     const SECONDARY_COLOR = "red";
 
@@ -19,6 +19,7 @@ export default function SortingVisualizer(props) {
 
     useEffect(() => {
         resetArray(numberOfBars);
+        // eslint-disable-next-line
     }, []);
 
     //Functions
