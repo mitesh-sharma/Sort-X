@@ -212,6 +212,7 @@ export function getSelectionSortAnimations(array) {
         arr[i] = arr[minIdx];
         arr[minIdx] = temp;
       }
+      animations.push([minIdx, i, false]);
     }
   }
 

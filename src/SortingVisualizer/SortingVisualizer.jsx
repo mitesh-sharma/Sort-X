@@ -148,11 +148,18 @@ export default function SortingVisualizer() {
             const barOneStyle = arrayBars[barOneIdx].style;
             const barTwoStyle = arrayBars[barTwoIdx].style;
             setTimeout(() => {
+                barOneStyle.backgroundColor = SECONDARY_COLOR;
+                barTwoStyle.backgroundColor = SECONDARY_COLOR;
                 if (isSwap) {
                     const tempHeight = barOneStyle.height;
                     barOneStyle.height = barTwoStyle.height;
                     barTwoStyle.height = tempHeight;
                 }
+                setTimeout(()=>{
+                    barOneStyle.backgroundColor = PRIMARY_COLOR;
+                    barTwoStyle.backgroundColor = PRIMARY_COLOR;
+                }, animationSpeed);
+
             }, i * animationSpeed);
         }
     }
