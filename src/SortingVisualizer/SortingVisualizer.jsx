@@ -155,11 +155,10 @@ export default function SortingVisualizer() {
                     barOneStyle.height = barTwoStyle.height;
                     barTwoStyle.height = tempHeight;
                 }
-                setTimeout(()=>{
+                setTimeout(() => {
                     barOneStyle.backgroundColor = PRIMARY_COLOR;
                     barTwoStyle.backgroundColor = PRIMARY_COLOR;
                 }, animationSpeed);
-
             }, i * animationSpeed);
         }
     }
@@ -237,7 +236,7 @@ export default function SortingVisualizer() {
                         className="rounded-md px-1 mx-1 active:bg-cyan-800 text-white"
                         for="points"
                     >
-                        Animation Time: {animationSpeed} ms
+                        Animation Speed: {100 - animationSpeed}
                     </label>
                     <input
                         className="w-20"
@@ -245,10 +244,10 @@ export default function SortingVisualizer() {
                         id="points"
                         name="points"
                         min="1"
-                        max="100"
-                        value={animationSpeed}
+                        max="99"
+                        value={100 - animationSpeed}
                         onChange={(e) => {
-                            setanimationSpeed(e.target.value);
+                            setanimationSpeed(100 - e.target.value);
                         }}
                     />
                 </div>
